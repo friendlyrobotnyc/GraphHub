@@ -79,9 +79,7 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/empty_repo"
-        android:id="@+id/repo_empty"
-        android:visibility="gone"/>
+
 
     <include layout="@layout/error_repo"
         android:id="@+id/repo_error"

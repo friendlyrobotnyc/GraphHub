@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.wdziemia.githubtimes.GithubTimesApplication;
 import com.wdziemia.githubtimes.R;
+import com.wdziemia.githubtimes.RepoQuery;
 import com.wdziemia.githubtimes.mvp.MvpActivity;
 import com.wdziemia.githubtimes.ui.repository.web.ChromeTabsBroadcastReceiver;
 import com.wdziemia.githubtimes.ui.repository.web.CustomTabsHelper;
@@ -84,8 +85,6 @@ public class RepositoryListActivity extends MvpActivity<RepositoryPresenter> imp
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.repo_error)
     View errorView;
-    @BindView(R.id.repo_empty)
-    View emptyView;
 
     private Subscription clickSubscription;
     private RepositoryViewAdapter adapter;
@@ -201,12 +200,12 @@ public class RepositoryListActivity extends MvpActivity<RepositoryPresenter> imp
         adapter = new RepositoryViewAdapter(this);
         recyclerView.setAdapter(adapter);
         clickSubscription = adapter.getItemClickSubject().subscribe(item -> {
-            String packageName = CustomTabsHelper.getPackageNameToUse(this);
-            if (prefHelper.isChromeTabs() && packageName != null) {
-                openChrome(item.getHtmlUrl(), packageName);
-            } else {
-                openWebView(item.getHtmlUrl(), item.getFullName());
-            }
+//            String packageName = CustomTabsHelper.getPackageNameToUse(this);
+//            if (prefHelper.isChromeTabs() && packageName != null) {
+//                openChrome(item.getHtmlUrl(), packageName);
+//            } else {
+//                openWebView(item.getHtmlUrl(), item.getFullName());
+//            }
         }, e-> {
             Timber.e(e, "ItemClickSubject");});
     }
@@ -265,10 +264,9 @@ public class RepositoryListActivity extends MvpActivity<RepositoryPresenter> imp
     }
 
     @Override
-    public void showRepositories(List<Repository> items) {
+    public void showRepositories(RepoQuery.Repositories items) {
         refreshLayout.setRefreshing(false);
         recyclerView.setVisibility(View.VISIBLE);
-        emptyView.setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
         errorView.setVisibility(View.GONE);
 
         adapter.setItems(items);
@@ -278,7 +276,6 @@ public class RepositoryListActivity extends MvpActivity<RepositoryPresenter> imp
     public void showProgress() {
         refreshLayout.setRefreshing(true);
         recyclerView.setVisibility(View.VISIBLE);
-        emptyView.setVisibility(View.GONE);
         errorView.setVisibility(View.GONE);
     }
 
@@ -287,10 +284,8 @@ public class RepositoryListActivity extends MvpActivity<RepositoryPresenter> imp
         // If there is an HTTP exception, and github returns a 422, that means there are no repos so s
         // how the empty state
         if (e != null && e instanceof HttpException && ((HttpException) e).code() == 422) {
-            emptyView.setVisibility(View.VISIBLE);
             errorView.setVisibility(View.GONE);
         } else {
-            emptyView.setVisibility(View.GONE);
             errorView.setVisibility(View.VISIBLE);
         }
         recyclerView.setVisibility(View.INVISIBLE);

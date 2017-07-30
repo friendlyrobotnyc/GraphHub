@@ -1,7 +1,11 @@
 package com.wdziemia.githubtimes.ui.repository;
 
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.rx.RxApollo;
 import com.wdziemia.githubtimes.BuildConfig;
+import com.wdziemia.githubtimes.RepoQuery;
 import com.wdziemia.githubtimes.dagger.SchedulerProvider;
+import com.wdziemia.githubtimes.graphql.ApolloManager;
 import com.wdziemia.githubtimes.mvp.MvpPresenter;
 import com.wdziemia.githubtimes.retrofit.GithubApi;
 import com.wdziemia.githubtimes.ui.settings.PreferenceHelper;
@@ -12,22 +16,20 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Func1;
 
 public class RepositoryPresenter implements MvpPresenter<RepositoryView> {
 
-    private GithubApi githubApi;
-    private PreferenceHelper prefHelper;
+
     private SchedulerProvider provider;
 
     private RepositoryView view;
     private String organizationId;
     private Subscription networkSubscription;
-    private List<Repository> list;
+    private RepoQuery.Repositories list;
 
     @Inject
-    public RepositoryPresenter(GithubApi githubApi, PreferenceHelper prefHelper, SchedulerProvider provider) {
-        this.githubApi = githubApi;
-        this.prefHelper = prefHelper;
+    public RepositoryPresenter(SchedulerProvider provider) {
         this.provider = provider;
     }
 
@@ -68,15 +70,8 @@ public class RepositoryPresenter implements MvpPresenter<RepositoryView> {
      * searches GitHub
      */
     void load() {
-        networkSubscription = qualifyOrganizationId()
-                .observeOn(provider.ui())
-                .doOnNext(q -> view.showProgress())
-                .observeOn(provider.io())
-                .flatMap(qualifiedId -> githubApi.searchRepositories(qualifiedId,
-                        prefHelper.getRepoSort(),
-                        prefHelper.getRepoOrder(),
-                        prefHelper.getRepoFetchCount()))
-                .map(RepositoryResponse::getItems)
+        networkSubscription = RxApollo.from(ApolloManager.repositories())
+                .map(dataResponse -> dataResponse.data().organization().repositories())
                 .subscribeOn(provider.io())
                 .observeOn(provider.ui())
                 .doOnNext(list -> this.list = list)

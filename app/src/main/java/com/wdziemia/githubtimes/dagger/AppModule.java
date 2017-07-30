@@ -50,7 +50,7 @@ public class AppModule {
 
     @Provides
     public RepositoryPresenter provideRepositoryPresenter(GithubApi githubApi, PreferenceHelper prefHelper, SchedulerProvider provider){
-        return new RepositoryPresenter(githubApi, prefHelper, provider);
+        return new RepositoryPresenter( provider);
     }
 
 }
