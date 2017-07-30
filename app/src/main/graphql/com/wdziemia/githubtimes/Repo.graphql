@@ -1,0 +1,16 @@
+query Repo($name:String!) {
+organization(login:$name){
+  repositories(first:6,orderBy:{direction:DESC,field:STARGAZERS}) {
+    totalCount
+    edges {
+      node {
+        stargazers{
+          totalCount
+        }
+        name
+      }
+    }
+  }
+}
+}
+

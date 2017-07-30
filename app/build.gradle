@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.apollographql.android'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
