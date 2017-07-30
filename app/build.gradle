@@ -1,0 +1,136 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        applicationId "com.wdziemia.githubtimes"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        debugConfig {
+            storeFile file('debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+
+        // This is bad, added for easy switching between release and debug
+        releaseConfig {
+            storeFile file('release.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debugConfig
+            applicationIdSuffix ".dev"
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+        }
+    }
+
+    productFlavors {
+        production {
+            buildConfigField "String", "BASE_URL", '"https://api.github.com"'
+            buildConfigField "String", "SEARCH_ORG_ENDPOINT", '"search/users"'
+            buildConfigField "String", "SEARCH_REPO_ENDPOINT", '"search/repositories"'
+            buildConfigField "String", "QUALIFIER_SEARCH_ORG", '"%s+type:org"'
+            buildConfigField "String", "QUALIFIER_SEARCH_REPO", '"user:%s"'
+        }
+
+        // Points to local rest server using json-server(npm), default port 3000
+        local {
+            buildConfigField "String", "BASE_URL", '\"http://' + getIP() + ':3000/\"'
+            buildConfigField "String", "SEARCH_ORG_ENDPOINT", '"users"'
+            buildConfigField "String", "SEARCH_REPO_ENDPOINT", '"repositories"'
+            buildConfigField "String", "QUALIFIER_SEARCH_ORG", '"%s"'
+            buildConfigField "String", "QUALIFIER_SEARCH_REPO", '"%s"'
+        }
+    }
+}
+
+def getIP() {
+    InetAddress result = null;
+    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+    while (interfaces.hasMoreElements()) {
+        Enumeration<InetAddress> addresses = interfaces.nextElement().getInetAddresses();
+        while (addresses.hasMoreElements()) {
+            InetAddress address = addresses.nextElement();
+            if (!address.isLoopbackAddress()) {
+                if (address.isSiteLocalAddress()) {
+                    return address.getHostAddress();
+                } else if (result == null) {
+                    result = address;
+                }
+            }
+        }
+    }
+    return (result != null ? result : InetAddress.getLocalHost()).getHostAddress();
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:customtabs:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:recyclerview-v7:25.1.1'
+    compile 'com.android.support:cardview-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:support-vector-drawable:25.1.1'
+    compile 'com.android.support:support-annotations:25.1.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
+
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
+
+    compile 'com.annimon:stream:1.1.2'
+    compile 'com.jakewharton.timber:timber:4.1.2'
+
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-scalars:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxjava:1.1.5'
+
+    compile 'com.google.dagger:dagger:2.5'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.5'
+
+    compile 'nl.littlerobots.rxlint:rxlint:1.0'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.assertj:assertj-core:1.7.1'
+    testCompile 'org.robolectric:robolectric:3.1'
+}

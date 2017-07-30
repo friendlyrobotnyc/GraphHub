@@ -1,0 +1,77 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/general">
+
+        <com.wdziemia.githubtimes.ui.views.RangeEditTextPreference
+            android:defaultValue="@string/pref_default_repo_fetch"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:key="repo_fetch"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/title_repo_fetch"
+            app:minValue="1" />
+
+        <ListPreference
+            android:defaultValue="@string/pref_default_repo_sort"
+            android:entries="@array/pref_repo_sort"
+            android:entryValues="@array/pref_repo_sort_values"
+            android:key="repo_sort"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/title_repo_sort" />
+
+        <ListPreference
+            android:defaultValue="@string/pref_default_repo_order"
+            android:entries="@array/pref_repo_order"
+            android:entryValues="@array/pref_repo_order_values"
+            android:key="repo_order"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/title_repo_order" />
+
+        <SwitchPreference
+            android:defaultValue="@string/pref_default_chrome_tabs"
+            android:key="repo_chrome_tabs"
+            android:summary="@string/summ_chrome_tabs"
+            android:title="@string/title_chrome_tabs" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/me">
+
+        <Preference android:title="@string/me_name">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/me_url" />
+        </Preference>
+
+        <Preference android:title="@string/me_resume">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/me_resume_url" />
+        </Preference>
+
+        <Preference android:title="@string/title_feedback">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/feedback_email">
+                <!--suppress AndroidElementNotAllowed -->
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="@string/feedback_subject" />
+            </intent>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <Preference
+            android:key="version"
+            android:layout="@layout/pref_version"
+            android:title="@string/app_version" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

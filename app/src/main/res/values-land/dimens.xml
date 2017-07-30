@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="translation_header_edit_text">64dp</dimen>
+    <dimen name="padding_top_list_message">0dp</dimen>
+</resources>

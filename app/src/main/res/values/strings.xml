@@ -1,0 +1,73 @@
+<resources>
+
+    <string name="app_name">Github Times</string>
+    <string name="app_version">Version %1$s (%2$d)</string>
+
+    <!-- Debug Strings -->
+
+    <string name="lorem_ipsum_name">Lorem Ipsum</string>
+    <string name="lorem_ipsum_sentence">Lorem ipsum dolor sit amet consectetur adipiscing elit.
+    </string>
+    <string name="lorem_ipsum_tweet">Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+    </string>
+    <string name="lorem_ipsum_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+        anim id est laborum.
+    </string>
+
+    <!-- Transitions -->
+
+    <string name="activity_image_trans">image_transition</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_default_repo_fetch">3</string>
+    <string name="pref_default_repo_sort">stars</string>
+    <string name="pref_default_repo_order">desc</string>
+    <string name="pref_default_chrome_tabs">true</string>
+
+    <string name="range_edit_text_pref_hint">Range between %1$d and %2$d</string>
+    <string name="range_edit_text_pref_error">Value must fall in range of %1$d and %2$d</string>
+
+    <string name="general">General</string>
+    <string name="title_repo_fetch">Repo fetch count</string>
+    <string name="title_repo_sort">Sort top repos</string>
+    <string name="title_repo_order">Order top repos</string>
+    <string name="title_chrome_tabs">Open in Chrome Tabs</string>
+    <string name="summ_chrome_tabs">Use Chrome tabs to open repo links. When disabled, the app will open repo links in a WebView.</string>
+    <string name="me">Me</string>
+    <string name="me_name" formatted="false">Wojciech Dziemianczyk</string>
+    <string name="me_url">http://w.dziemia.com</string>
+    <string name="me_resume">Résumé</string>
+    <string name="me_resume_url" formatted="false">https://docs.google.com/document/d/1R2AwtqQhnD_BkVKr2rpCKCQSPgK4T-wLQnzv4bTsvYw/edit?usp=sharing</string>
+    <string name="title_feedback">Feedback</string>
+    <string name="feedback_email">mailto:wdziemia@gmail.com</string>
+    <string name="feedback_subject">Feedback about Github Times app</string>
+
+    <!-- WebView Activity-->
+
+    <string name="title_activity_webview"> %1$s / %2$s</string>
+    <string name="share">Share</string>
+    <string name="refresh">Refresh</string>
+    <string name="menu_open_browser">Open in Browser</string>
+    <string name="share_title">Share with…</string>
+
+    <!-- Organization Activity-->
+
+    <string name="error_invalid_search_query">Invalid Search Query, Try again!</string>
+    <string name="error_message_org">There seems to have been an error with your search, please try again!</string>
+    <string name="empty_message_org">No Organizations found, please try another search!</string>
+
+    <!-- Repository Activity-->
+
+    <string name="error_message_repo">There seems to have been an error retrieving the repo, please try again!</string>
+    <string name="empty_message_repo">This organization\'s repositories either do not exist or are marked as private</string>
+    <string name="search_organizations">Search Organizations</string>
+
+</resources>
